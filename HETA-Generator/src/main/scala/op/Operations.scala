@@ -176,11 +176,11 @@ object OpInfo {
 		OPC.SEL  -> ((ops: Seq[UInt]) => {
 			Mux(ops(2)(0), ops(1)(high, 0), ops(0)(high, 0)) }),
 		OPC.IMUL  -> ((ops: Seq[UInt]) => {
-			(ops(0)(high, 0).asSInt() * ops(1)(high, 0).asSInt()).asUInt()}),
+			(ops(0)(high, 0).asSInt * ops(1)(high, 0).asSInt).asUInt}),
 		OPC.ILE  -> ((ops: Seq[UInt]) => {
-			ops(0)(high, 0).asSInt() <= ops(1)(high, 0).asSInt() }),
+			ops(0)(high, 0).asSInt <= ops(1)(high, 0).asSInt }),
 		OPC.ILT   -> ((ops: Seq[UInt]) => {
-			ops(0)(high, 0).asSInt() < ops(1)(high, 0).asSInt() }),
+			ops(0)(high, 0).asSInt < ops(1)(high, 0).asSInt }),
 	)
 }
 

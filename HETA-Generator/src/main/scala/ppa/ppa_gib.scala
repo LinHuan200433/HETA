@@ -4,7 +4,7 @@ import dsa.GIB.{getOPin2IPinConnect, getOPin2TrackConnect, getTrack2IPinConnect,
 
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
-import Chisel.log2Ceil
+import chisel3.util.log2Ceil
 object ppa_gib {
 
 

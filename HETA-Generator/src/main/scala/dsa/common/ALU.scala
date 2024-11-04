@@ -5,7 +5,7 @@ import chisel3.util._
 import scala.collection.mutable._
 import op._
 import scala.collection.mutable
-
+import _root_.circt.stage.ChiselStage
 
 /** reconfigurable arithmetic unit
  * 
@@ -23,7 +23,7 @@ class ALU(width: Int, ops: ListBuffer[OPC.OPC]) extends Module {
   val op2res = ops.map{op => 
     (op.id.U -> OpInfo.OpFuncMap(op)(io.in.toSeq))}
 
-  io.out := MuxLookup(io.config, 0.U, op2res)
+  io.out := MuxLookup(io.config, 0.U)(op2res.toSeq)
  }
 
 
@@ -53,5 +53,5 @@ object ALUVerilogGen extends App {
   for (i <- 1 until args.size - 2) {
     op.append(opmap(args(i)))
   }
-  (new chisel3.stage.ChiselStage).emitVerilog(new ALU(args(0).toInt, op), args)
+  ChiselStage.emitSystemVerilogFile(new ALU(args(0).toInt, op), args)
 }

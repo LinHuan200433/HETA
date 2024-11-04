@@ -1,6 +1,6 @@
 package dsa
 
-import Chisel.log2Ceil
+import chisel3.util.log2Ceil
 import chisel3._
 import chisel3.util._
 import dsa.LSU.LSU
@@ -693,5 +693,5 @@ class CGRA(attrs: mutable.Map[String, Any], dumpIR: Boolean) extends Module with
 //    "num_input_ob" -> 6
 //  )
 //
-//  (new chisel3.stage.ChiselStage).emitVerilog(new CGRA(attrs, true), args)
+//  ChiselStage.emitSystemVerilogFile(new CGRA(attrs, true), args)
 //}

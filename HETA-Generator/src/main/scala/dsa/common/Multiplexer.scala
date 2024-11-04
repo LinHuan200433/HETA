@@ -2,7 +2,7 @@ package dsa
 
 import chisel3._
 import chisel3.util._
-
+import _root_.circt.stage.ChiselStage
 
 /** reconfigurable multiplexer
  * 
@@ -17,11 +17,11 @@ class Muxn(width: Int, numIn: Int) extends Module {
   })
 
   val mapTable = (0 until numIn).map{ i => i.U -> io.in(i)}
-  io.out := MuxLookup(io.config, io.in(0), mapTable)
+  io.out := MuxLookup(io.config, io.in(0))(mapTable.toSeq)
 
 }
 
 
  object MUXVerilogGen extends App {
-   (new chisel3.stage.ChiselStage).emitVerilog(new Muxn(32, args(0).toInt),args)
+   ChiselStage.emitSystemVerilogFile(new Muxn(32, args(0).toInt),args)
  }

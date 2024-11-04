@@ -7,7 +7,7 @@ import scala.collection.mutable.{ListBuffer, ArrayBuffer}
 import scala.math.{pow}
 import op._
 import ir._
-
+import _root_.circt.stage.ChiselStage
 
 /** GPE: Generic Processing Element
  * 
@@ -249,5 +249,5 @@ class GPE(attrs: mutable.Map[String, Any]) extends Module with IR {
      "max_delay" -> 4
    )
 
-   (new chisel3.stage.ChiselStage).emitVerilog(new GPE(attrs),args)
+   ChiselStage.emitSystemVerilogFile(new GPE(attrs),args)
  }

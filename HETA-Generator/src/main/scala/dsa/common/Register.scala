@@ -2,6 +2,7 @@ package dsa.common
 
 import chisel3._
 import chisel3.util._
+import _root_.circt.stage.ChiselStage
 
 class Register (width : Int) extends Module{
   val io = IO(new Bundle {
@@ -13,5 +14,5 @@ class Register (width : Int) extends Module{
 }
 
 object RegisterVerilogGen extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new Register(32), args)
+  ChiselStage.emitSystemVerilogFile(new Register(32), args)
 }

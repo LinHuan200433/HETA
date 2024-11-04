@@ -2,7 +2,8 @@ package dsa
 
 import chisel3._
 import chisel3.util.{log2Ceil, _}
-import Chisel.{Decoupled}
+import chisel3.util.{Decoupled}
+import _root_.circt.stage.ChiselStage
 
 /** Single port SRAM
  * 
@@ -203,5 +204,5 @@ class Delay_en(maxnum: Int) extends Module{
 }
 
  object SRAMVerilogGen extends App {
-   (new chisel3.stage.ChiselStage).emitVerilog(new single_port_ram(32, 64),args)
+   ChiselStage.emitSystemVerilogFile(new single_port_ram(32, 64),args)
  }

@@ -3,7 +3,7 @@ package dsa
 import chisel3._
 import chisel3.util._
 import scala.math.pow
-
+import _root_.circt.stage.ChiselStage
 
 /** Delay-configurable Pipe
  * 
@@ -112,6 +112,6 @@ class DelayPipe(width: Int, maxDelay: Int) extends Module {
 
 
  object DelayVerilogGen extends App {
-   (new chisel3.stage.ChiselStage).emitVerilog(new DelayPipe(32, args(0).toInt),args)
+   ChiselStage.emitSystemVerilogFile(new DelayPipe(32, args(0).toInt),args)
  }
 

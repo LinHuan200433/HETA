@@ -27,5 +27,5 @@ class LUT(dataWidth: Int, addrWidth: Int) extends Module {
 
 
 // object VerilogGen extends App {
-//   (new chisel3.stage.ChiselStage).emitVerilog(new LUT(2, 4),args)
+//   ChiselStage.emitSystemVerilogFile(new LUT(2, 4),args)
 // }

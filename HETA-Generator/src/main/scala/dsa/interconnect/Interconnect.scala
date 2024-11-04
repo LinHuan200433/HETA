@@ -3,7 +3,7 @@ package dsa
 import chisel3._
 import chisel3.util._
 
-import scala.collection.{breakOut, mutable}
+import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import _root_.common.MacroVar._
 import ir._
@@ -1147,5 +1147,5 @@ class GIB(attrs: mutable.Map[String, Any]) extends Module with IR {
 ////     "connect_flexibility" -> connect_flexibility
 ////   )
 ////
-////   (new chisel3.stage.ChiselStage).emitVerilog(new GIB(attrs),args)
+////   ChiselStage.emitSystemVerilogFile(new GIB(attrs),args)
 // }

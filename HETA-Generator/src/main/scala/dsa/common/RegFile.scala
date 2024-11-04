@@ -3,7 +3,7 @@ package dsa
 import chisel3._
 import chisel3.util._
 import scala.math.pow
-
+import _root_.circt.stage.ChiselStage
 
 /** Register File
  * 
@@ -39,6 +39,6 @@ class RF(width: Int, regNum: Int, numIn: Int, numOut: Int) extends Module {
   
 }
 object RFVerilogGen extends App {
-  (new chisel3.stage.ChiselStage).emitVerilog(new RF(32, 1, 1, 2), args)
+  ChiselStage.emitSystemVerilogFile(new RF(32, 1, 1, 2), args)
 }
 

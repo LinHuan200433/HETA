@@ -3,7 +3,7 @@ import chisel3._
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-import Chisel.log2Ceil
+import chisel3.util.log2Ceil
 import dsa._
 import ir._
 /** IO Block

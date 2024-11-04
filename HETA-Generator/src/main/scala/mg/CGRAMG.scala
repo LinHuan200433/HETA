@@ -4,6 +4,7 @@ import spec._
 import op._
 import dsa._
 import ppa.ppa_cgra.CGRA_area
+import _root_.circt.stage.ChiselStage
 //import ir._
 
 // TODO: add to command options
@@ -19,7 +20,7 @@ object CGRAMG extends App{
   var loadSpec : Boolean = true
   var dumpOperations : Boolean = false
   var dumpIR : Boolean = true
-  var genVerilog : Boolean = false
+  var genVerilog : Boolean = true
   var getArea: Boolean = true
 
   if(loadSpec){
@@ -32,9 +33,9 @@ object CGRAMG extends App{
     OpInfo.dumpOpInfo(jsonFile)
   }
   if(genVerilog){
-    (new chisel3.stage.ChiselStage).emitVerilog(new CGRA(CGRASpec.attrs, dumpIR), args)
+    ChiselStage.emitSystemVerilogFile(new CGRA(CGRASpec.attrs, dumpIR), args)
   }else{ // not emit verilog to speedup
-    (new chisel3.stage.ChiselStage).emitChirrtl(new CGRA(CGRASpec.attrs, dumpIR), args)
+    ChiselStage.emitCHIRRTLFile(new CGRA(CGRASpec.attrs, dumpIR), args)
   }
   if (getArea) {
     val jsonFile = "src/main/resources/fastModel.json"

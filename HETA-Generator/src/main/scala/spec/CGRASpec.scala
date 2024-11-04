@@ -172,7 +172,7 @@
      for(kv <- jsonMap){
        if(attrs.contains(kv._1)){
          if(kv._1 == "operations") {
-           attrs(kv._1) = kv._2.asInstanceOf[List[String]].to[ListBuffer]
+           attrs(kv._1) = ListBuffer.from(kv._2.asInstanceOf[List[String]])
          }else if(kv._1 == "opin_2_ipin_connect_flexibility"){
            attrs(kv._1) = mutable.Map() ++ kv._2.asInstanceOf[Map[String, Int]]
          }else if(kv._1 == "opin_2_otrack_connect_flexibility"){
@@ -190,7 +190,7 @@
                val gpemap = gpe_1d(j).asInstanceOf[Map[String, Any]]
                val num_rf_reg = gpemap("num_rf_reg").asInstanceOf[Int]
                val max_delay = gpemap("max_delay").asInstanceOf[Int]
-               val operations = gpemap("operations").asInstanceOf[List[String]].to[ListBuffer]
+               val operations = ListBuffer.from(gpemap("operations").asInstanceOf[List[String]])
                val fromdir = gpemap("from_dir").asInstanceOf[List[Int]]
                val todir = gpemap("to_dir").asInstanceOf[List[Int]]
                gpes_spec(i).append(GpeSpec(num_rf_reg, max_delay, operations, fromdir, todir))

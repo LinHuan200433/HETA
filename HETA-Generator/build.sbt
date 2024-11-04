@@ -1,73 +1,50 @@
-def scalacOptionsVersion(scalaVersion: String): Seq[String] = {
-  Seq() ++ {
-    // If we're building with Scala > 2.11, enable the compile option
-    //  switch to support our anonymous Bundle definitions:
-    //  https://github.com/scala/bug/issues/10047
-    CrossVersion.partialVersion(scalaVersion) match {
-      case Some((2, scalaMajor: Long)) if scalaMajor < 12 => Seq()
-      case _ => Seq("-Xsource:2.11")
-    }
-  }
-}
-
-def javacOptionsVersion(scalaVersion: String): Seq[String] = {
-  Seq() ++ {
-    // Scala 2.12 requires Java 8. We continue to generate
-    //  Java 7 compatible code for Scala 2.11
-    //  for compatibility with old clients.
-    CrossVersion.partialVersion(scalaVersion) match {
-      case Some((2, scalaMajor: Long)) if scalaMajor < 12 =>
-        Seq("-source", "1.7", "-target", "1.7")
-      case _ =>
-        Seq("-source", "1.8", "-target", "1.8")
-    }
-  }
-}
-
+// 项目信息
 organization := "xxx"
-
 version := "0.0.1"
-
 name := "CGRA-MG"
 
-scalaVersion := "2.12.10"
+// 设置固定的 Scala 版本
+scalaVersion := "2.13.14"
 
-crossScalaVersions := Seq("2.12.10", "2.11.12")
-
-scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-language:reflectiveCalls")
-
-// Provide a managed dependency on X if -DXVersion="" is supplied on the command line.
-// The following are the current "release" versions.
-val defaultVersions = Seq(
-  "chisel-iotesters" -> "1.4.1+"
-  )
-
-libraryDependencies ++= defaultVersions.map { case (dep, ver) =>
-  "edu.berkeley.cs" %% dep % sys.props.getOrElse(dep + "Version", ver) }
-
-libraryDependencies ++= Seq(
-  "com.fasterxml.jackson.core" % "jackson-core" % "2.12.5",
-  "com.fasterxml.jackson.core" % "jackson-annotations" % "2.12.5",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.5",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.12.5"
+// 编译器选项
+scalacOptions ++= Seq(
+    "-language:reflectiveCalls",
+    "-deprecation",
+    "-feature",
+    "-Xcheckinit",
+    "-Ymacro-annotations",
+    // "-Xsource:2.11" // 根据需要保留或移除
 )
 
+// Java 编译器选项
+javacOptions ++= Seq(
+  "-source", "21",
+  "-target", "21"
+)
 
+// 依赖管理
+val chiselVersion = "6.5.0"       // 请根据需要确认最新版本
+val testersVersion = "6.0.0"      // 请根据需要确认最新版本
+val jacksonVersion = "2.18.1"
+libraryDependencies ++= Seq(
+  "org.chipsalliance" %% "chisel" % chiselVersion,
+  "edu.berkeley.cs" %% "chiseltest" % testersVersion % Test,
+  "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
+  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
+  "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion
+)
+dependencyOverrides += "org.scala-lang" % "scala-library" % "2.13.14"
+addCompilerPlugin("org.chipsalliance" % "chisel-plugin" % chiselVersion cross CrossVersion.full)
+// 仓库设置
 resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots"),
   Resolver.sonatypeRepo("releases")
 )
 
-// Recommendations from http://www.scalatest.org/user_guide/using_scalatest_with_sbt
+// 测试设置
 logBuffered in Test := false
-
-// Disable parallel execution when running tests.
-//  Running tests in parallel on Jenkins currently fails.
 parallelExecution in Test := false
 
-scalacOptions ++= scalacOptionsVersion(scalaVersion.value)
-
-javacOptions ++= javacOptionsVersion(scalaVersion.value)
-
-
+// 其他设置
 trapExit := false

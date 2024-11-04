@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.util._
 
 import scala.collection.mutable.ArrayBuffer
-
+import _root_.circt.stage.ChiselStage
 
 /** Configuration Memory (Registers)
  * 
@@ -136,6 +136,6 @@ class ConfigMem(regWidth: Int, regNum: Int, cfgDataWidth: Int, maxII: Int) exten
 
  object VerilogGen extends App {
    print(60)
-   (new chisel3.stage.ChiselStage).emitVerilog(new ConfigMem(60, 1, 32, 8),args)
+   ChiselStage.emitSystemVerilogFile(new ConfigMem(60, 1, 32, 8),args)
  }
 
