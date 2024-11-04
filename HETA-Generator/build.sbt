@@ -30,9 +30,9 @@ version := "0.0.1"
 
 name := "CGRA-MG"
 
-scalaVersion := "2.12.10"
+scalaVersion := "2.12.20"
 
-crossScalaVersions := Seq("2.12.10", "2.11.12")
+crossScalaVersions := Seq("2.12.20", "2.11.12")
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-language:reflectiveCalls")
 
